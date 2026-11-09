@@ -1,116 +1,469 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f8fafc">
-  <meta name="description" content="Encuentra negocios, servicios, ofertas y eventos cerca de ti.">
-  <title>Explorador de Negocios — cerca de ti</title>
-  <style>
-    :root{--ink:#152238;--muted:#67758a;--line:#e4eaf1;--paper:#fff;--wash:#f4f7fb;--brand:#5145e5;--brand-dark:#4035c7;--brand-soft:#eeedff;--teal:#0b887d;--teal-soft:#e4f7f3;--gold:#a75c0b;--gold-soft:#fff4df;--red:#bd454b;--shadow:0 10px 28px rgba(25,42,70,.08);--radius:18px}
-    *{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.01em}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #aaa4ff;outline-offset:2px}a{color:inherit;text-decoration:none}.hidden{display:none!important}
-    .topbar{height:72px;background:#ffffffed;border-bottom:1px solid var(--line);display:flex;align-items:center;position:sticky;top:0;z-index:10;backdrop-filter:blur(16px)}.topbar-inner{width:min(1320px,calc(100% - 44px));margin:auto;display:flex;align-items:center;gap:34px}.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:17px;white-space:nowrap}.brand-mark{width:36px;height:36px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#675af5,#3e36c7);border-radius:12px;box-shadow:0 6px 14px #5046d633;font-size:19px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.05em;font-weight:650;margin-top:1px}.nav{display:flex;gap:8px;align-items:center;flex:1}.nav button{background:transparent;border:0;border-radius:11px;padding:10px 13px;color:#536176;font-size:13px;font-weight:700}.nav button:hover,.nav button.active{color:var(--brand);background:var(--brand-soft)}.top-actions{display:flex;gap:9px}.btn{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 14px;font-size:12px;font-weight:760;color:#344257;transition:.18s ease;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn:hover{transform:translateY(-1px);box-shadow:0 5px 13px #1e293b12}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 5px 14px #5145e52e}.btn.primary:hover{background:var(--brand-dark)}.btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}.btn.soft{background:var(--brand-soft);border-color:#e0deff;color:#473ed0}.btn.small{padding:8px 10px;font-size:11px;border-radius:10px}
-    main{width:min(1320px,calc(100% - 44px));margin:0 auto;padding:27px 0 80px}.view{animation:fadein .22s ease}@keyframes fadein{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:3px 0 19px}.eyebrow{color:var(--teal);font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:850}.hero h1{font-size:clamp(25px,3vw,35px);line-height:1.12;letter-spacing:-.045em;margin:6px 0 6px}.hero p{margin:0;color:var(--muted);font-size:13px}.location-pill{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:white;border-radius:13px;padding:9px 12px;font-size:11px;font-weight:720;white-space:nowrap;box-shadow:0 3px 12px #0f172a08}.location-pin{color:var(--teal);font-size:16px}.location-pill .change{color:var(--brand);font-size:10px;background:transparent;border:0;font-weight:800;padding:0 0 0 3px}
-    .searchbar{display:grid;grid-template-columns:1fr 190px auto;gap:9px;background:white;border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 5px 20px #192b4507}.search-input,.search-select{display:flex;align-items:center;gap:9px;min-width:0;padding:0 12px}.search-input span,.search-select span{color:#8592a5;font-size:17px}.search-input input,.search-select select{border:0;outline:0;width:100%;background:transparent;color:var(--ink);font-size:12px}.search-select{border-left:1px solid var(--line)}.searchbar .btn{min-width:114px}.categories{display:flex;gap:8px;overflow-x:auto;padding:13px 0 16px;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.category{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:8px 12px;color:#58667a;font-size:11px;font-weight:740;transition:.15s}.category:hover{border-color:#bcb7ff;color:var(--brand)}.category.active{background:#292e43;border-color:#292e43;color:white}.category .cat-ico{margin-right:5px}
-    .explore-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:16px;align-items:stretch}.map-card,.results-card,.panel-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.map-head,.results-head{height:55px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.map-head strong,.results-head strong{font-size:12px}.map-head span,.results-head span{font-size:10px;color:var(--muted)}.map-tools{display:flex;gap:6px}.map-tool{height:30px;width:31px;border:1px solid var(--line);background:#fff;border-radius:9px;color:#536176;font-weight:800}.map-canvas{height:418px;position:relative;overflow:hidden;background-color:#e8eff0;background-image:linear-gradient(28deg,transparent 45%,rgba(255,255,255,.92) 46%,rgba(255,255,255,.92) 48%,transparent 49%),linear-gradient(116deg,transparent 38%,rgba(255,255,255,.95) 39%,rgba(255,255,255,.95) 42%,transparent 43%),linear-gradient(5deg,transparent 67%,rgba(255,255,255,.88) 68%,rgba(255,255,255,.88) 70%,transparent 71%),linear-gradient(90deg,transparent 74%,rgba(255,255,255,.82) 75%,rgba(255,255,255,.82) 77%,transparent 78%),linear-gradient(150deg,transparent 18%,rgba(255,255,255,.8) 19%,rgba(255,255,255,.8) 20%,transparent 21%);background-size:350px 240px,400px 260px,310px 220px,280px 300px,360px 250px}.map-canvas:before{content:"";position:absolute;width:36%;height:130%;left:-7%;top:-15%;background:#ccebe7;transform:rotate(12deg);border-radius:42% 58% 12% 24%;opacity:.9}.map-canvas:after{content:"";position:absolute;inset:0;background-image:radial-gradient(#96a7ae 1px,transparent 1px);background-size:120px 120px;opacity:.22;pointer-events:none}.map-label{position:absolute;z-index:1;font-size:9px;color:#6e8284;font-weight:750;text-shadow:0 1px white;letter-spacing:.02em}.map-label.l1{left:44%;top:24%}.map-label.l2{left:24%;top:57%}.map-label.l3{right:8%;top:68%}.map-label.l4{left:55%;bottom:12%}.map-label.l5{right:20%;top:10%}.map-label.water{left:3%;top:60%;color:#4b8585;transform:rotate(-79deg);letter-spacing:.13em}.map-road{position:absolute;z-index:0;height:9px;background:#ffffffa6;border:1px solid #dce4e1;border-left:0;border-right:0;transform-origin:left center}.road1{width:90%;left:10%;top:39%;transform:rotate(14deg)}.road2{width:87%;left:7%;top:79%;transform:rotate(-20deg)}.road3{width:70%;left:25%;top:13%;transform:rotate(64deg)}.road4{width:65%;left:29%;top:62%;transform:rotate(-53deg)}.map-pin{position:absolute;z-index:2;transform:translate(-50%,-50%);border:0;border-radius:13px;background:#fff;padding:4px 8px 4px 4px;box-shadow:0 6px 15px #1830472a;display:flex;align-items:center;gap:6px;color:#24334a;font-size:9px;font-weight:820;white-space:nowrap;transition:.2s}.map-pin:hover{transform:translate(-50%,-55%) scale(1.05);box-shadow:0 9px 18px #1830473d}.pin-icon{width:27px;height:27px;border-radius:9px;display:grid;place-items:center;background:#f0edff;color:#5a4bdb;font-size:15px}.pin-promo .pin-icon{background:#fff3d8;color:#b46a09}.map-me{position:absolute;z-index:2;left:48%;top:49%;width:16px;height:16px;border-radius:50%;background:#4e7bf4;border:3px solid white;box-shadow:0 0 0 8px #4e7bf42a,0 3px 8px #16233c40}.map-legend{position:absolute;z-index:2;left:13px;bottom:13px;background:#ffffffed;border:1px solid #ffffff;border-radius:10px;padding:8px 10px;display:flex;gap:12px;font-size:9px;color:#506078;box-shadow:0 3px 12px #1e293b12}.map-legend span{display:flex;align-items:center;gap:5px}.legend-dot{width:7px;height:7px;border-radius:50%;background:var(--teal)}.map-note{position:absolute;z-index:2;right:12px;bottom:13px;background:#ffffffed;border-radius:10px;padding:8px 10px;color:#617085;font-size:9px}
-    .results-head .view-switch{display:flex;padding:3px;border-radius:9px;background:#f1f4f8}.view-switch button{border:0;background:transparent;color:#69778a;border-radius:7px;padding:5px 8px;font-size:9px;font-weight:800}.view-switch button.active{background:white;color:var(--brand);box-shadow:0 1px 4px #17255419}.results-list{padding:7px 12px 10px;max-height:418px;overflow:auto}.business-card{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;padding:12px 5px;border-bottom:1px solid #edf0f4;align-items:start;cursor:pointer}.business-card:last-child{border-bottom:0}.business-card:hover .business-name{color:var(--brand)}.business-avatar{width:45px;height:45px;display:grid;place-items:center;border-radius:14px;background:#f1edff;color:#5145d2;font-size:21px}.business-avatar.orange{background:#fff3df;color:#ae6810}.business-avatar.green{background:#e4f7f1;color:#0b887d}.business-avatar.red{background:#ffebed;color:#c14f54}.business-main{min-width:0}.business-name{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:840;transition:.15s}.verified{width:14px;height:14px;display:inline-grid;place-items:center;border-radius:50%;background:#e1f6f1;color:#108675;font-size:9px}.business-meta{margin-top:4px;color:#778397;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.business-offer{display:inline-flex;margin-top:7px;background:var(--gold-soft);color:var(--gold);border-radius:6px;padding:4px 6px;font-size:9px;font-weight:800}.business-distance{text-align:right;color:#627087;font-size:9px;font-weight:740;white-space:nowrap;padding-top:3px}.open-now{display:block;margin-top:5px;color:var(--teal);font-size:8px;font-weight:800}.open-now.closed{color:#9a6a31}.empty{padding:30px 12px;text-align:center;color:var(--muted);font-size:12px}
-    .trust-strip{display:flex;gap:12px;align-items:center;margin:16px 0 0;background:#f0f9f7;border:1px solid #dbf0eb;border-radius:14px;padding:12px 15px;color:#2d625d;font-size:10px}.trust-strip b{font-size:11px}.trust-icon{font-size:18px}.trust-strip .learn{margin-left:auto;color:var(--teal);font-weight:800;white-space:nowrap;background:transparent;border:0;font-size:10px}
-    .section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:19px}.section-heading h1{font-size:29px;letter-spacing:-.04em;margin:5px 0}.section-heading p{color:var(--muted);font-size:12px;margin:0}.two-col{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,.6fr);gap:16px}.panel-card{padding:20px}.panel-card h2{font-size:15px;letter-spacing:-.02em;margin:0 0 5px}.panel-card .sub{font-size:10px;color:var(--muted);margin:0 0 17px;line-height:1.5}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:10px;color:#45536a;font-weight:800}.field input,.field select,.field textarea{width:100%;padding:10px 11px;border:1px solid #dfe5ed;border-radius:10px;background:#fff;color:var(--ink);font-size:11px}.field textarea{min-height:75px;resize:vertical}.field small{font-size:9px;color:#8490a1}.form-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px}.form-note{color:var(--muted);font-size:9px;line-height:1.4}.step-list{display:grid;gap:16px;margin-top:20px}.step{display:flex;gap:11px;align-items:flex-start}.step-num{width:25px;height:25px;flex:0 0 25px;display:grid;place-items:center;background:#eeedff;color:var(--brand);border-radius:9px;font-size:10px;font-weight:900}.step strong{display:block;font-size:10px;margin-top:2px}.step p{color:var(--muted);font-size:9px;line-height:1.45;margin:4px 0 0}.privacy-note{background:#f8fafc;border:1px solid #edf1f5;border-radius:11px;padding:11px;color:#69778a;font-size:9px;line-height:1.45;margin-top:18px}.privacy-note b{color:#344257}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:15px}.stat{background:white;border:1px solid var(--line);border-radius:15px;padding:15px}.stat .label{color:var(--muted);font-size:9px;font-weight:700}.stat strong{display:block;font-size:24px;letter-spacing:-.04em;margin:5px 0}.stat small{color:#738095;font-size:9px}.stat.highlight{background:#f0efff;border-color:#e4e1ff}.stat.highlight strong{color:var(--brand)}.admin-layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:15px}.queue-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}.queue-head h2{font-size:14px;margin:0}.queue-head p{font-size:9px;color:var(--muted);margin:4px 0 0}.queue-count{border-radius:999px;padding:5px 8px;background:var(--gold-soft);color:var(--gold);font-size:9px;font-weight:850}.request{padding:15px 18px;border-bottom:1px solid #edf0f4}.request:last-child{border-bottom:0}.request-top{display:flex;justify-content:space-between;gap:15px}.request-title{font-size:12px;font-weight:850}.request-time{font-size:9px;color:#8993a3}.request-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0;color:#647186;font-size:9px}.request-grid b{color:#344257}.request-evidence{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}.evidence{border:1px solid var(--line);border-radius:7px;padding:5px 7px;color:#67758a;font-size:8px}.request-actions{display:flex;gap:7px}.request-actions .btn{padding:7px 10px;font-size:9px}.btn.approve{background:#e4f7f1;color:#087467;border-color:#c6eee4}.btn.reject{background:#fff0f0;color:#b7464b;border-color:#f8dddd}.btn.review{background:#f3f5f8;color:#536176}.queue-empty{padding:26px;text-align:center;color:var(--muted);font-size:11px}.side-stack{display:grid;gap:14px;align-content:start}.side-stack .panel-card{padding:16px}.side-stack h3{font-size:12px;margin:0 0 12px}.rule{display:flex;gap:8px;margin:10px 0;color:#5e6c81;font-size:9px;line-height:1.4}.rule i{font-style:normal;color:var(--teal);font-weight:900}.status-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eef1f4;font-size:9px;color:#657287}.status-row:last-child{border:0}.status-row b{color:#27354b}.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;background:#e1a83d}.status-dot.green{background:#0f9a79}.status-dot.red{background:#cf555a}
-    .overlay{position:fixed;z-index:30;inset:0;background:#101a2b8c;backdrop-filter:blur(4px);display:grid;place-items:center;padding:18px}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:white;border-radius:20px;box-shadow:0 25px 80px #101a2b55}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 19px;border-bottom:1px solid var(--line)}.modal-head h2{font-size:15px;margin:0}.icon-btn{border:0;background:#f2f4f8;border-radius:9px;width:30px;height:30px;font-size:18px;color:#637086}.modal-body{padding:18px}.toast{position:fixed;z-index:40;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#19283d;color:white;border-radius:12px;padding:11px 15px;font-size:11px;box-shadow:0 8px 24px #101a2b40;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}.demo-tag{display:inline-flex;align-items:center;gap:6px;border:1px solid #f0dfb7;background:#fff9e9;color:#87601b;border-radius:999px;padding:6px 9px;font-size:8px;font-weight:850;letter-spacing:.02em}.demo-dot{width:6px;height:6px;border-radius:50%;background:#d79a25}.footer-note{margin:18px 0 0;text-align:center;color:#8994a5;font-size:9px}.legacy-intro{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:2px 0 12px}.legacy-intro h1{font-size:21px;letter-spacing:-.035em;margin:3px 0}.legacy-intro p{font-size:10px;color:var(--muted);margin:0}.legacy-host{height:calc(100dvh - 181px);min-height:600px;border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#e9eef5;box-shadow:var(--shadow)}.legacy-host iframe{width:100%;height:100%;display:block;border:0;background:#f1f5f9}
-    @media(max-width:900px){.topbar-inner,main{width:min(100% - 30px,760px)}.topbar-inner{gap:14px}.nav{gap:2px}.nav button{padding:9px 8px}.explore-grid{grid-template-columns:1fr}.map-canvas{height:350px}.results-list{max-height:none;display:grid;grid-template-columns:1fr 1fr;column-gap:14px}.business-card:nth-last-child(2){border-bottom:0}.admin-layout{grid-template-columns:1fr}.side-stack{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:minmax(0,1fr) 260px}}
-    @media(max-width:620px){.topbar{height:auto;min-height:63px}.topbar-inner{width:calc(100% - 24px);gap:7px;flex-wrap:wrap;padding:10px 0}.brand{font-size:14px}.brand-mark{width:32px;height:32px;border-radius:11px}.brand small{font-size:8px}.nav{order:3;flex-basis:100%;justify-content:space-between}.nav button{flex:1;font-size:9px;padding:8px 3px}.top-actions{margin-left:auto}.top-actions .btn{padding:8px 9px;font-size:10px}.top-actions .admin-nav{display:none}main{width:calc(100% - 22px);padding:20px 0 55px}.hero{display:block}.hero h1{font-size:27px}.hero p{font-size:11px;max-width:320px}.location-pill{margin-top:13px;width:max-content}.searchbar{grid-template-columns:1fr auto;gap:5px}.search-input{grid-column:1/-1;height:37px}.search-select{height:34px;border-left:0;border-top:1px solid var(--line)}.searchbar .btn{min-width:88px;padding:8px}.categories{padding:10px 0 13px}.map-head,.results-head{padding:0 12px}.map-canvas{height:290px}.map-pin{font-size:8px;padding-right:6px}.pin-icon{width:23px;height:23px}.results-list{display:block;padding:5px 10px;max-height:none}.business-card:nth-last-child(2){border-bottom:1px solid #edf0f4}.trust-strip{align-items:flex-start;font-size:9px}.trust-strip .learn{font-size:9px}.section-heading{display:block}.section-heading h1{font-size:25px}.section-heading .demo-tag{margin-top:12px}.two-col,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.panel-card{padding:16px}.two-col{gap:12px}.stats{grid-template-columns:1fr 1fr;gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.side-stack{grid-template-columns:1fr}.request{padding:13px}.request-grid{grid-template-columns:1fr 1fr}.request-actions{flex-wrap:wrap}.request-actions .btn{flex:1}.form-actions{align-items:flex-start;flex-direction:column}.form-actions .btn{width:100%}.map-note{display:none}.legacy-intro{display:block}.legacy-intro .demo-tag{margin-top:10px}.legacy-host{height:calc(100dvh - 205px);min-height:520px;border-radius:13px}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-  </style>
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Explora negocios, servicios y promociones cerca de ti.">
+  <meta name="application-name" content="Explorador de Negocios">
+  <title>Explorador de Negocios</title>
+  <script type="module" crossorigin src="./assets/index-Be8cY-lR.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/preload-helper-CRzLMJPS.js">
+  <link rel="stylesheet" crossorigin href="./assets/index-DEVlRozQ.css">
+  <link rel="stylesheet" href="./assets/ux-upgrade.css">
 </head>
-<body>
-  <header class="topbar"><div class="topbar-inner">
-    <a class="brand" href="#" aria-label="Explorador de Negocios, inicio" onclick="showView('explore');return false"><span class="brand-mark">⌖</span><span>Explorador<small>NEGOCIOS DE TU ZONA</small></span></a>
-    <nav class="nav" aria-label="Navegación principal"><button class="active" data-view="explore">⌖ &nbsp;Explorar</button><button data-view="owner">＋ &nbsp;Registrar negocio</button><button data-view="admin">▤ &nbsp;Panel de revisión</button><button data-view="legacy">◉ &nbsp;Mapa funcional</button></nav>
-    <div class="top-actions"><button class="btn admin-nav" onclick="showView('admin')">▤ Panel de revisión</button><button class="btn primary" onclick="showView('owner')">＋ Registrar negocio</button></div>
-  </div></header>
-  <main>
-    <section class="view" id="view-explore">
-      <div class="hero"><div><div class="eyebrow">Tu barrio, mejor conectado</div><h1>Lo que buscas, <span style="color:var(--brand)">cerca de ti.</span></h1><p>Explora negocios, servicios y novedades de tu zona en un solo lugar.</p></div><div class="location-pill"><span class="location-pin">●</span><span id="location-label">Miraflores, Lima</span><button class="change" onclick="changeZone()">Cambiar zona</button></div></div>
-      <div class="searchbar"><label class="search-input"><span>⌕</span><input id="search" placeholder="¿Qué necesitas? Ej. café, dentista, reparación" autocomplete="off" oninput="renderBusinesses()"></label><label class="search-select"><span>⌄</span><select id="sort-select" aria-label="Ordenar negocios" onchange="renderBusinesses()"><option value="near">Más cercanos</option><option value="offers">Con ofertas</option><option value="open">Abiertos ahora</option></select></label><button class="btn primary" onclick="renderBusinesses()">Buscar <span>→</span></button></div>
-      <div class="categories" id="categories"><button class="category active" data-category="Todas">✦ &nbsp;Todo</button><button class="category" data-category="Comida y bebida"><span class="cat-ico">☕</span>Comida y bebida</button><button class="category" data-category="Salud"><span class="cat-ico">✚</span>Salud</button><button class="category" data-category="Belleza"><span class="cat-ico">✦</span>Belleza</button><button class="category" data-category="Servicios"><span class="cat-ico">⌘</span>Servicios</button><button class="category" data-category="Compras"><span class="cat-ico">▣</span>Compras</button><button class="category" data-category="Eventos"><span class="cat-ico">♫</span>Eventos</button></div>
-      <div class="explore-grid">
-        <section class="map-card"><div class="map-head"><div><strong>Mapa de negocios</strong><br><span>Negocios verificados cerca de ti</span></div><div class="map-tools"><button class="map-tool" aria-label="Acercar" onclick="toast('Puedes acercar el mapa en la app conectada.')">＋</button><button class="map-tool" aria-label="Alejar" onclick="toast('Puedes alejar el mapa en la app conectada.')">−</button><button class="map-tool" aria-label="Usar mi ubicación" onclick="useLocation()">◎</button></div></div>
-          <div class="map-canvas" id="map-canvas"><div class="road1 map-road"></div><div class="road2 map-road"></div><div class="road3 map-road"></div><div class="road4 map-road"></div><span class="map-label l1">PARQUE KENNEDY</span><span class="map-label l2">AV. LARCO</span><span class="map-label l3">MERCADO 28</span><span class="map-label l4">MAL. DE LA RESERVA</span><span class="map-label l5">MIRAFLORES</span><span class="map-label water">COSTA VERDE</span><div class="map-me" title="Tu zona aproximada"></div><div class="map-legend"><span><i class="legend-dot"></i> Verificado</span><span>🏷 Oferta activa</span></div><div class="map-note">Vista de demostración · Miraflores</div></div>
-        </section>
-        <section class="results-card"><div class="results-head"><div><strong id="result-count">Negocios cerca de ti</strong><br><span>Ordenados por distancia</span></div><div class="view-switch"><button class="active" onclick="setResultMode(this,'list')">Lista</button><button onclick="setResultMode(this,'map')">Mapa</button></div></div><div class="results-list" id="business-list"></div></section>
+<body class="dark:bg-slate-900 bg-slate-100 text-slate-800 dark:text-slate-100 antialiased h-full w-full select-none">
+
+  <!-- MAP VIEW -->
+  <div id="map"></div>
+
+  <!-- OFFLINE STATUS PILL -->
+  <div id="offline-banner" class="fixed top-2 left-1/2 -translate-x-1/2 z-30 hidden items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/90 text-white text-xs font-semibold shadow-lg backdrop-blur-md">
+    <i class="ph-bold ph-wifi-slash"></i>
+    <span>Modo Offline: Base de datos local activa</span>
+  </div>
+
+  <!-- MAIN HEADER (EXPLORER MODE) -->
+  <header id="main-header" class="fixed top-0 inset-x-0 z-20 p-2 sm:p-3 pointer-events-none" style="padding-top: max(0.6rem, env(safe-area-inset-top));">
+    <div class="glass pointer-events-auto rounded-3xl p-3 max-w-3xl mx-auto space-y-2.5">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white shrink-0 shadow-md shadow-indigo-500/30">
+          <i class="ph-fill ph-storefront text-lg"></i>
+        </div>
+        <h1 class="font-bold text-base sm:text-lg flex-1 truncate tracking-tight">Directorio de Negocios</h1>
+        
+        <!-- Country Selector (Replaced Zone Selector) -->
+        <select id="country-select" aria-label="Filtrar por país" class="rounded-full bg-slate-500/15 text-xs sm:text-sm font-semibold px-2.5 py-1.5 outline-none dark:bg-slate-800/80 cursor-pointer">
+          <option value="all">🌍 Todos los países</option>
+          <option value="PE" selected>🇵🇪 Perú</option>
+          <option value="CO">🇨🇴 Colombia</option>
+          <option value="MX">🇲🇽 México</option>
+          <option value="AR">🇦🇷 Argentina</option>
+          <option value="CL">🇨🇱 Chile</option>
+          <option value="ES">🇪🇸 España</option>
+          <option value="US">🇺🇸 EE.UU.</option>
+          <option value="OT">🌐 Otro</option>
+        </select>
+
+        <!-- View Mode: Map / List Toggle -->
+        <button id="view-toggle" aria-label="Alternar entre mapa y lista" class="fab !w-8 !h-8 !text-base bg-slate-500/15 dark:bg-slate-800/80" title="Alternar Mapa/Lista">
+          <i class="ph-bold ph-list-dashes"></i>
+        </button>
+
+        <!-- Satellite toggle -->
+        <button id="btn-satellite" aria-label="Cambiar vista de mapa" class="fab !w-8 !h-8 !text-base bg-slate-500/15 dark:bg-slate-800/80" title="Vista Satélite">
+          <i class="ph-bold ph-globe-hemisphere-west"></i>
+        </button>
+
+        <!-- Theme toggle -->
+        <button id="theme" aria-label="Cambiar tema claro u oscuro" class="fab !w-8 !h-8 !text-base bg-slate-500/15 dark:bg-slate-800/80" title="Tema">
+          <i class="ph-fill ph-moon"></i>
+        </button>
       </div>
-      <div class="trust-strip"><span class="trust-icon">✓</span><span><b>Negocios revisados por nuestro equipo.</b> La insignia verde indica que la ficha fue verificada.</span><button class="learn" onclick="toast('Los negocios se revisan antes de aparecer como verificados.')">¿Cómo funciona?</button></div>
-      <p class="footer-note">Prototipo visual e interactivo · Mapa, negocios y ubicaciones de ejemplo</p>
-    </section>
 
-    <section class="view hidden" id="view-owner">
-      <div class="section-heading"><div><div class="eyebrow">Haz que te encuentren</div><h1>Registra tu negocio</h1><p>Completa los datos principales. Revisaremos la ficha antes de publicarla.</p></div><span class="demo-tag"><i class="demo-dot"></i> SOLICITUD DE DEMOSTRACIÓN</span></div>
-      <div class="two-col"><section class="panel-card"><h2>Cuéntanos sobre tu negocio</h2><p class="sub">El registro inicial toma unos minutos. Podrás completar el perfil y agregar novedades después de la aprobación.</p>
-        <form id="owner-form" onsubmit="submitBusiness(event)"><div class="form-grid">
-          <div class="field"><label for="biz-name">Nombre comercial *</label><input id="biz-name" required maxlength="80" placeholder="Ej. Café de la Esquina"></div>
-          <div class="field"><label for="biz-category">Categoría *</label><select id="biz-category" required><option value="">Selecciona una categoría</option><option>Comida y bebida</option><option>Salud</option><option>Belleza</option><option>Servicios</option><option>Compras</option><option>Eventos</option></select></div>
-          <div class="field"><label for="biz-address">Dirección *</label><input id="biz-address" required placeholder="Calle, número y distrito"></div>
-          <div class="field"><label for="biz-district">Distrito / ciudad *</label><input id="biz-district" required placeholder="Ej. Miraflores, Lima"></div>
-          <div class="field"><label for="biz-phone">Teléfono o WhatsApp *</label><input id="biz-phone" type="tel" required placeholder="+51 999 999 999"></div>
-          <div class="field"><label for="biz-email">Correo de contacto *</label><input id="biz-email" type="email" required placeholder="hola@minegocio.pe"></div>
-          <div class="field full"><label for="biz-desc">¿Qué servicios ofrece? *</label><textarea id="biz-desc" required maxlength="400" placeholder="Describe brevemente tus productos o servicios"></textarea><small>Máximo 400 caracteres. Podrás añadir horarios, fotos y promociones luego.</small></div>
-          <div class="field full"><label for="biz-proof">Enlace público para validar el negocio (opcional)</label><input id="biz-proof" type="url" placeholder="Web, redes sociales o ficha pública"><small>Ayuda a nuestro equipo a confirmar que el negocio existe.</small></div>
-        </div><div class="form-actions"><span class="form-note">Al enviar, confirmas que puedes administrar esta ficha.<br>La solicitud no será pública hasta ser aprobada.</span><button class="btn primary" type="submit">Enviar para revisión <span>→</span></button></div></form>
-      </section>
-      <aside class="panel-card"><h2>¿Qué pasa después?</h2><p class="sub">Un proceso simple y transparente, desde el envío hasta la publicación.</p><div class="step-list"><div class="step"><span class="step-num">1</span><div><strong>Envías la información</strong><p>Completas lo básico para encontrar y contactar tu negocio.</p></div></div><div class="step"><span class="step-num">2</span><div><strong>Revisamos la ficha</strong><p>Comprobamos que el negocio exista y que sus datos tengan sentido.</p></div></div><div class="step"><span class="step-num">3</span><div><strong>Te avisamos el resultado</strong><p>Si falta algo, podrás corregirlo. Si se aprueba, aparecerá en el explorador.</p></div></div><div class="step"><span class="step-num">4</span><div><strong>Publicas tus novedades</strong><p>Añades horarios, servicios, ofertas y eventos con fecha de vigencia.</p></div></div></div><div class="privacy-note"><b>Tu ficha permanece privada durante la revisión.</b><br>Este prototipo guarda una solicitud de muestra en este navegador. La verificación y publicación reales requieren conectar el servicio a una base de datos y un panel con permisos.</div></aside></div>
-      <section class="panel-card" style="margin-top:15px"><h2>Mis solicitudes en este dispositivo</h2><p class="sub">Consulta aquí el estado de las fichas que enviaste en esta demostración.</p><div id="owner-requests"></div></section>
-    </section>
+      <!-- Search input -->
+      <div class="relative">
+        <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
+        <input id="q" placeholder="Buscar negocio, café, comida, ropa, servicios…" class="w-full rounded-full bg-slate-500/15 pl-9 pr-3 py-1.5 text-xs sm:text-sm outline-none dark:bg-slate-800/60 dark:placeholder-slate-400 focus:ring-2 focus:ring-indigo-500/50 transition">
+      </div>
 
-    <section class="view hidden" id="view-admin">
-      <div class="section-heading"><div><div class="eyebrow">Control de calidad</div><h1>Revisión de negocios</h1><p>Verifica cada ficha antes de mostrarla a las personas.</p></div><span class="demo-tag"><i class="demo-dot"></i> PANEL DE DEMOSTRACIÓN · SIN AUTENTICACIÓN</span></div>
-      <div class="stats"><div class="stat highlight"><span class="label">Pendientes de revisión</span><strong id="stat-pending">0</strong><small>Requieren una decisión</small></div><div class="stat"><span class="label">Negocios publicados</span><strong id="stat-approved">0</strong><small>Visibles en el explorador</small></div><div class="stat"><span class="label">Solicitudes rechazadas</span><strong id="stat-rejected">0</strong><small>Con motivo registrado</small></div><div class="stat"><span class="label">Ofertas por vencer</span><strong>2</strong><small>En los próximos 7 días</small></div></div>
-      <div class="admin-layout"><section class="panel-card" style="padding:0"><div class="queue-head"><div><h2>Bandeja de solicitudes</h2><p>Revisa ubicación, contacto y referencias antes de aprobar.</p></div><span class="queue-count" id="queue-count">0 pendientes</span></div><div id="review-queue"></div></section><aside class="side-stack"><section class="panel-card"><h3>Guía de revisión</h3><div class="rule"><i>✓</i><span>Comprueba que el negocio exista en la dirección indicada.</span></div><div class="rule"><i>✓</i><span>Revisa que el teléfono y el enlace correspondan al negocio.</span></div><div class="rule"><i>✓</i><span>Busca fichas duplicadas antes de publicar.</span></div><div class="rule"><i>✓</i><span>Si faltan datos, pide cambios en vez de rechazar sin contexto.</span></div></section><section class="panel-card"><h3>Visibilidad de la ficha</h3><div class="status-row"><span><i class="status-dot"></i> En revisión</span><b>Solo tú la ves</b></div><div class="status-row"><span><i class="status-dot green"></i> Aprobada</span><b>Aparece en búsquedas</b></div><div class="status-row"><span><i class="status-dot red"></i> Rechazada</span><b>No se publica</b></div></section><section class="panel-card"><h3>Estados del flujo</h3><p class="sub" style="margin:0">Cada decisión debería guardar fecha, responsable y motivo. En producción, las acciones administrativas necesitan una cuenta con permisos.</p></section></aside></div>
-      <p class="footer-note">Los botones de aprobar y rechazar solo simulan el flujo en este navegador. No verifican negocios reales.</p>
-    </section>
-    <section class="view hidden" id="view-legacy">
-      <div class="legacy-intro"><div><div class="eyebrow">Funciones de la versión anterior</div><h1>Mapa y directorio funcional</h1><p>Usa el mapa Leaflet, las fichas y los controles que ya tenía la app.</p></div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="demo-tag"><i class="demo-dot"></i> EXPERIENCIA ANTERIOR INTEGRADA</span><a class="btn small" href="./index-app-original.html" target="_blank" rel="noopener">Abrir aparte ↗</a></div></div>
-      <div class="legacy-host"><iframe title="Explorador de negocios con mapa interactivo" src="./index-app-original.html" loading="lazy" allow="geolocation"></iframe></div>
-    </section>
-  </main>
-  <div class="overlay hidden" id="detail-overlay" onclick="if(event.target===this)closeDetails()"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-title"><header class="modal-head"><h2 id="detail-title">Detalle del negocio</h2><button class="icon-btn" aria-label="Cerrar" onclick="closeDetails()">×</button></header><div class="modal-body" id="detail-body"></div></section></div>
-  <div class="overlay hidden" id="decision-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="decision-title"><header class="modal-head"><h2 id="decision-title">Pedir corrección</h2><button class="icon-btn" aria-label="Cerrar" onclick="closeDecision()">×</button></header><div class="modal-body"><p style="font-size:11px;color:var(--muted);margin-top:0">Escribe qué información debe corregir el dueño.</p><div class="field"><label for="decision-note">Motivo</label><textarea id="decision-note" placeholder="Ej. Confirma el número de local y agrega un enlace público."></textarea></div><button class="btn primary" style="width:100%;margin-top:12px" onclick="saveDecision()">Enviar observación</button></div></section></div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script>
-    const initialBusinesses=[
-      {id:'cafe-limon',name:'Café Limón',category:'Comida y bebida',address:'Calle Berlín 245, Miraflores',district:'Miraflores, Lima',phone:'+51 987 321 654',email:'hola@cafelimon.pe',description:'Café de especialidad, desayunos todo el día y opciones vegetarianas. Espacio tranquilo para trabajar.',distance:'350 m',open:true,offer:'2x1 en café filtrado · hasta hoy',icon:'☕',tone:'',position:[61,35],hours:'Lun–Dom · 8:00 a. m. – 9:00 p. m.',services:['Café de especialidad','Desayunos','Opciones vegetarianas']},
-      {id:'buen-corte',name:'El Buen Corte',category:'Belleza',address:'Av. Larco 820, Miraflores',district:'Miraflores, Lima',phone:'+51 956 210 800',email:'reservas@buencorte.pe',description:'Barbería de barrio con cortes clásicos, asesoría de estilo y atención con cita.',distance:'600 m',open:true,offer:'',icon:'✂',tone:'orange',position:[34,57],hours:'Mar–Dom · 10:00 a. m. – 8:00 p. m.',services:['Corte clásico','Barba','Citas por WhatsApp']},
-      {id:'botica-vida',name:'Botica Vida',category:'Salud',address:'Av. Arequipa 5020, Miraflores',district:'Miraflores, Lima',phone:'+51 944 206 110',email:'contacto@boticavida.pe',description:'Farmacia y cuidado personal. Consulta disponibilidad de productos por WhatsApp.',distance:'850 m',open:true,offer:'',icon:'✚',tone:'green',position:[76,68],hours:'Todos los días · 7:30 a. m. – 10:00 p. m.',services:['Farmacia','Cuidado personal','Consulta de stock']},
-      {id:'mercado-verde',name:'Mercado Verde',category:'Compras',address:'Calle Schell 315, Miraflores',district:'Miraflores, Lima',phone:'+51 991 532 220',email:'hola@mercadoverde.pe',description:'Frutas, verduras y productos de pequeños productores locales.',distance:'1.1 km',open:false,offer:'Canasta de temporada con 15% de descuento',icon:'❋',tone:'green',position:[49,79],hours:'Lun–Sáb · 8:00 a. m. – 6:00 p. m.',services:['Frutas y verduras','Productos locales','Canastas de temporada']},
-      {id:'pan-casa',name:'Pan de Casa',category:'Comida y bebida',address:'Calle San Martín 640, Miraflores',district:'Miraflores, Lima',phone:'+51 989 409 066',email:'pedidos@pandecasa.pe',description:'Pan de masa madre, bollería y panes horneados cada mañana.',distance:'1.4 km',open:true,offer:'',icon:'🥐',tone:'orange',position:[26,29],hours:'Mar–Dom · 7:00 a. m. – 7:00 p. m.',services:['Masa madre','Bollería','Pedidos para llevar']},
-      {id:'galeria-vecina',name:'Galería Vecina',category:'Eventos',address:'Calle Colón 188, Miraflores',district:'Miraflores, Lima',phone:'+51 977 315 902',email:'hola@galeriavecina.pe',description:'Espacio cultural de barrio con talleres, exposiciones y encuentros creativos.',distance:'1.6 km',open:true,event:true,offer:'Feria creativa · sábado desde las 4 p. m.',icon:'♫',tone:'green',position:[84,36],hours:'Mié–Dom · 11:00 a. m. – 8:00 p. m.',services:['Talleres','Exposiciones','Eventos culturales']}
-    ];
-    const initialQueue=[{id:'sample-pending',name:'Taller Mecánico Rápido',category:'Servicios',address:'Av. Benavides 1160, Miraflores',district:'Miraflores, Lima',phone:'+51 955 400 722',email:'taller@ejemplo.pe',description:'Mecánica general, cambio de aceite y diagnóstico.',proof:'https://ejemplo.pe/taller',submitted:'Hace 2 horas',status:'pending',note:'',sample:true,icon:'⚙',tone:'orange',distance:'1.8 km',open:true,position:[70,48]}];
-    const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem('explorer_demo_'+key))??fallback}catch{return fallback}};
-    const write=(key,value)=>localStorage.setItem('explorer_demo_'+key,JSON.stringify(value));
-    let businesses=read('businesses',initialBusinesses),queue=read('queue',initialQueue),activeCategory='Todas',activeDetail=null,decisionId=null;
-    function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));document.getElementById('view-'+name).classList.remove('hidden');document.querySelectorAll('.nav [data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));if(name==='admin')renderAdmin();if(name==='owner')renderOwnerRequests();window.scrollTo({top:0,behavior:'smooth'})}
-    document.querySelectorAll('.nav [data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
-    document.querySelectorAll('#categories .category').forEach(b=>b.addEventListener('click',()=>{activeCategory=b.dataset.category;document.querySelectorAll('#categories .category').forEach(x=>x.classList.toggle('active',x===b));renderBusinesses()}));
-    function allVisible(){return [...new Map(businesses.concat(queue.filter(x=>x.status==='approved')).map(b=>[b.id,b])).values()]}
-    function renderBusinesses(){const q=document.getElementById('search').value.trim().toLowerCase(),sort=document.getElementById('sort-select').value;let list=allVisible().filter(b=>{const text=[b.name,b.category,b.description,b.address,...(b.services||[])].join(' ').toLowerCase();return(!q||text.includes(q))&&(activeCategory==='Todas'||b.category===activeCategory||(activeCategory==='Eventos'&&b.event))});if(sort==='offers')list.sort((a,b)=>Number(!!b.offer)-Number(!!a.offer));if(sort==='open')list.sort((a,b)=>Number(b.open)-Number(a.open));document.getElementById('result-count').textContent=`${list.length} ${list.length===1?'negocio':'negocios'} cerca de ti`;const container=document.getElementById('business-list');container.innerHTML=list.length?list.map(b=>`<article class="business-card" onclick="openDetails('${b.id}')"><div class="business-avatar ${b.tone||''}">${b.icon||'⌂'}</div><div class="business-main"><div class="business-name">${escapeHTML(b.name)} <span class="verified" title="Negocio verificado">✓</span></div><div class="business-meta">${escapeHTML(b.category)} · ${escapeHTML(b.address)}</div>${b.offer?`<span class="business-offer">${b.event?'📅':'🏷'} ${escapeHTML(b.offer)}</span>`:''}</div><div class="business-distance">${escapeHTML(b.distance||'Cerca')}<span class="open-now ${b.open?'':'closed'}">${b.open?'● Abierto':'● Cerrado'}</span></div></article>`).join(''):'<div class="empty">No encontramos negocios con esos filtros. Prueba otra categoría o zona.</div>';renderPins(list)}
-    function renderPins(list){const canvas=document.getElementById('map-canvas');canvas.querySelectorAll('.map-pin').forEach(p=>p.remove());list.forEach((b,i)=>{const pos=b.position||[25+(i*16)%65,28+(i*21)%58],pin=document.createElement('button');pin.className='map-pin'+(b.offer?' pin-promo':'');pin.style.left=pos[0]+'%';pin.style.top=pos[1]+'%';pin.innerHTML=`<span class="pin-icon">${b.icon||'⌂'}</span><span>${escapeHTML(b.name)}</span>`;pin.setAttribute('aria-label','Ver '+b.name);pin.addEventListener('click',()=>openDetails(b.id));canvas.appendChild(pin)})}
-    function openDetails(id){const b=allVisible().find(x=>x.id===id);if(!b)return;activeDetail=id;document.getElementById('detail-title').textContent=b.name;document.getElementById('detail-body').innerHTML=`<div style="display:flex;gap:12px;align-items:center;margin-bottom:13px"><div class="business-avatar ${b.tone||''}" style="width:55px;height:55px;font-size:25px">${b.icon||'⌂'}</div><div><div class="business-name" style="font-size:14px">${escapeHTML(b.name)} <span class="verified">✓</span></div><div class="business-meta" style="font-size:10px">${escapeHTML(b.category)} · ${escapeHTML(b.distance||'Cerca')}</div><div class="open-now ${b.open?'':'closed'}">${b.open?'● Abierto ahora':'● Cerrado ahora'}</div></div></div><p style="font-size:11px;color:#59677c;line-height:1.6">${escapeHTML(b.description||'Negocio local')}</p>${b.offer?`<div class="business-offer" style="font-size:10px;padding:8px 10px">🏷 ${escapeHTML(b.offer)}</div>`:''}<div style="display:grid;gap:8px;margin-top:14px;font-size:10px;color:#536176"><div>⌖ &nbsp;${escapeHTML(b.address||b.district||'')}</div><div>◷ &nbsp;${escapeHTML(b.hours||'Horario por confirmar')}</div><div>☎ &nbsp;${escapeHTML(b.phone||'Contacto por confirmar')}</div><div>✦ &nbsp;${(b.services||[]).map(escapeHTML).join(' · ')||escapeHTML(b.category)}</div></div><div style="display:flex;gap:8px;margin-top:18px"><button class="btn primary" style="flex:1" onclick="toast('En la app publicada, aquí se abriría WhatsApp.')">Contactar</button><button class="btn" style="flex:1" onclick="toast('En la app publicada, aquí se abriría la ruta.')">Cómo llegar</button></div><div style="margin-top:12px;color:#0b887d;font-size:9px;font-weight:800">✓ Ficha revisada por el equipo</div>`;document.getElementById('detail-overlay').classList.remove('hidden')}
-    function closeDetails(){document.getElementById('detail-overlay').classList.add('hidden')}
-    function submitBusiness(e){e.preventDefault();const item={id:'biz-'+Date.now(),name:value('biz-name'),category:value('biz-category'),address:value('biz-address'),district:value('biz-district'),phone:value('biz-phone'),email:value('biz-email'),description:value('biz-desc'),proof:value('biz-proof'),submitted:'Ahora',status:'pending',note:'',sample:false,icon:iconFor(value('biz-category')),tone:'',distance:'Por confirmar',open:true,position:[42+Math.random()*35,33+Math.random()*45]};queue.unshift(item);write('queue',queue);e.target.reset();renderOwnerRequests();toast('Solicitud enviada. Aparece en el panel de revisión de esta demostración.');showView('owner')}
-    function iconFor(cat){return({'Comida y bebida':'☕','Salud':'✚','Belleza':'✂','Servicios':'⚙','Compras':'▣','Eventos':'♫'})[cat]||'⌂'}
-    function renderOwnerRequests(){const el=document.getElementById('owner-requests');const own=queue.filter(x=>!x.sample);if(!own.length){el.innerHTML='<div class="empty" style="padding:17px">Aún no enviaste solicitudes desde este dispositivo.</div>';return}el.innerHTML=own.map(x=>`<div class="status-row"><span><b>${escapeHTML(x.name)}</b> · ${escapeHTML(x.district)}</span><b>${x.status==='pending'?'🟡 En revisión':x.status==='approved'?'🟢 Aprobada':x.status==='changes'?'🟠 Necesita cambios':'🔴 Rechazada'}</b></div>${x.note?`<div style="font-size:9px;color:#6b778b;padding:4px 0 8px">Observación: ${escapeHTML(x.note)}</div>`:''}`).join('')}
-    function renderAdmin(){const pending=queue.filter(x=>x.status==='pending'),approved=allVisible().length,rejected=queue.filter(x=>x.status==='rejected').length;document.getElementById('stat-pending').textContent=pending.length;document.getElementById('stat-approved').textContent=approved;document.getElementById('stat-rejected').textContent=rejected;document.getElementById('queue-count').textContent=pending.length+' pendientes';const el=document.getElementById('review-queue');if(!pending.length){el.innerHTML='<div class="queue-empty">No hay solicitudes pendientes. Cuando un dueño envíe una ficha, aparecerá aquí.</div>';return}el.innerHTML=pending.map(x=>`<article class="request"><div class="request-top"><div class="request-title">${escapeHTML(x.name)} ${x.sample?'<span style="font-size:8px;color:#a87821;font-weight:700">· EJEMPLO</span>':''}</div><span class="request-time">${escapeHTML(x.submitted)}</span></div><div class="request-grid"><span>Categoría: <b>${escapeHTML(x.category)}</b></span><span>Distrito: <b>${escapeHTML(x.district)}</b></span><span>Dirección: <b>${escapeHTML(x.address)}</b></span><span>Teléfono: <b>${escapeHTML(x.phone)}</b></span><span>Correo: <b>${escapeHTML(x.email)}</b></span><span>Servicios: <b>${escapeHTML(x.description)}</b></span></div><div class="request-evidence"><span class="evidence">⌖ Ubicación indicada</span><span class="evidence">☎ Contacto proporcionado</span>${x.proof?`<span class="evidence">↗ Referencia pública</span>`:'<span class="evidence">Sin enlace de referencia</span>'}</div><div class="request-actions"><button class="btn approve" onclick="decide('${x.id}','approved')">✓ Aprobar y publicar</button><button class="btn review" onclick="decide('${x.id}','changes')">↻ Pedir cambios</button><button class="btn reject" onclick="decide('${x.id}','rejected')">× Rechazar</button></div></article>`).join('')}
-    function decide(id,status){if(status==='changes'){decisionId=id;document.getElementById('decision-note').value='';document.getElementById('decision-overlay').classList.remove('hidden');return}applyDecision(id,status,'')}
-    function saveDecision(){const note=document.getElementById('decision-note').value.trim();if(!note){toast('Escribe qué debe corregir el dueño.');return}applyDecision(decisionId,'changes',note);closeDecision()}
-    function applyDecision(id,status,note){const item=queue.find(x=>x.id===id);if(!item)return;item.status=status;item.note=note;if(status==='approved'){if(!businesses.some(b=>b.id===item.id))businesses.push({...item});write('businesses',businesses)}write('queue',queue);renderAdmin();renderBusinesses();renderOwnerRequests();toast(status==='approved'?'Negocio aprobado y publicado en este prototipo.':status==='rejected'?'Solicitud rechazada en este prototipo.':'Se enviaron observaciones al dueño.')}
-    function closeDecision(){document.getElementById('decision-overlay').classList.add('hidden');decisionId=null}
-    function value(id){return document.getElementById(id).value.trim()}function escapeHTML(s=''){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-    function changeZone(){const zone=window.prompt('Escribe un distrito o ciudad para esta demostración:',document.getElementById('location-label').textContent);if(zone?.trim()){document.getElementById('location-label').textContent=zone.trim();toast('Zona de muestra actualizada. Los negocios siguen siendo ejemplos.')}}
-    function useLocation(){if(!navigator.geolocation){toast('Ubicación no disponible. Puedes cambiar la zona manualmente.');return}toast('Solicitando permiso de ubicación…');navigator.geolocation.getCurrentPosition(pos=>{document.getElementById('location-label').textContent='Ubicación detectada · demo';toast('Ubicación detectada. El mapa y los negocios son datos de muestra.')},()=>toast('No se pudo acceder a la ubicación. Busca tu zona manualmente.'),{timeout:8000,maximumAge:60000})}
-    let toastTimer;function toast(text){const el=document.getElementById('toast');el.textContent=text;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2900)}
-    function setResultMode(button,mode){document.querySelectorAll('.view-switch button').forEach(x=>x.classList.toggle('active',x===button));toast(mode==='map'?'Selecciona una viñeta del mapa para ver la ficha.':'Mostrando negocios en lista.')}
-    renderBusinesses();renderOwnerRequests();
-  </script>
+      <!-- Categories chips bar with Add Category button -->
+      <div class="flex items-center gap-1.5 overflow-x-auto noscroll py-0.5">
+        <button id="btn-add-cat-quick" class="chip !py-1 !px-2.5 !bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 font-bold hover:bg-indigo-600 hover:text-white transition" title="Agregar nueva categoría">
+          <i class="ph-bold ph-plus"></i> Categoría
+        </button>
+        <div id="chips" class="flex gap-1.5 shrink-0"></div>
+      </div>
+
+      <!-- Sub header bar: Count & Registrar Negocio (Replaced 'Sorpréndeme') -->
+      <div class="flex items-center justify-between text-xs pt-0.5">
+        <span id="count" class="font-semibold opacity-75">Cargando negocios…</span>
+        <button id="btn-header-add" class="chip !py-1 !px-3 !bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95 transition font-bold flex items-center gap-1.5 shadow-sm">
+          <i class="ph-bold ph-plus-circle text-base"></i>
+          <span>Registrar Negocio</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- LIST VIEW (OFFLINE / CARDS BROWSER) -->
+  <section id="list-view" class="fixed inset-0 z-10 pt-48 pb-20 px-3 overflow-y-auto hidden">
+    <div class="max-w-2xl mx-auto space-y-3" id="cards-container"></div>
+  </section>
+
+  <!-- FLOATING ACTION BUTTONS -->
+  <div id="fabs">
+    <button id="gps" aria-label="Ir a mi ubicación" class="fab glass text-indigo-600 dark:text-indigo-400" title="Mi Ubicación GPS">
+      <i class="ph-bold ph-crosshair"></i>
+    </button>
+  </div>
+
+  <!-- BUSINESS DETAILS BOTTOM SHEET -->
+  <section id="sheet" class="glass text-slate-800 dark:text-slate-100">
+    <div id="grip" class="py-2.5 flex justify-center cursor-grab active:cursor-grabbing" style="touch-action:none">
+      <div class="w-12 h-1.5 rounded-full bg-slate-400/70"></div>
+    </div>
+    <div id="sc"></div>
+  </section>
+
+  <!-- BUSINESS OWNER / ENTERPRISE DASHBOARD VIEW -->
+  <section id="owner-panel" class="fixed inset-0 z-30 pt-4 pb-20 px-3 sm:px-4 overflow-y-auto hidden glass" style="padding-top: max(1rem, env(safe-area-inset-top));">
+    <div class="max-w-2xl mx-auto space-y-4">
+      
+      <!-- Panel Header -->
+      <div class="flex items-center justify-between pb-2 border-b border-slate-300/40 dark:border-slate-700/60">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-xl shadow-md shadow-indigo-500/30">
+            <i class="ph-fill ph-buildings"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-lg leading-tight">Panel de Mi Empresa</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Analíticas, visibilidad y base de datos offline</p>
+          </div>
+        </div>
+        <button id="btn-close-owner" class="fab !w-9 !h-9 text-slate-600 dark:text-slate-300 bg-slate-500/15">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <!-- Quick Stats Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div class="glass-card rounded-2xl p-3 text-center">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Registrados</p>
+          <p id="stat-total-biz" class="text-xl font-black text-indigo-600 dark:text-indigo-400 mt-0.5">0</p>
+        </div>
+        <div class="glass-card rounded-2xl p-3 text-center">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Vistas Ficha</p>
+          <p id="stat-views" class="text-xl font-black text-sky-600 dark:text-sky-400 mt-0.5">0</p>
+        </div>
+        <div class="glass-card rounded-2xl p-3 text-center">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Rutas GPS</p>
+          <p id="stat-routes" class="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">0</p>
+        </div>
+        <div class="glass-card rounded-2xl p-3 text-center">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">CTR Rutas</p>
+          <p id="stat-ctr" class="text-xl font-black text-amber-500 mt-0.5">0%</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-2">
+        <button id="btn-open-register" class="flex-1 py-3 px-4 rounded-2xl bg-indigo-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-indigo-500/30 active:scale-98 transition">
+          <i class="ph-bold ph-plus-circle text-lg"></i>
+          <span>Registrar Nueva Empresa</span>
+        </button>
+        <button id="btn-export-csv" class="py-3 px-4 rounded-2xl bg-slate-500/20 text-slate-800 dark:text-slate-100 font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 active:scale-98 transition" title="Descargar métricas en Excel/CSV">
+          <i class="ph-bold ph-file-csv text-lg"></i>
+          <span>Métricas (CSV)</span>
+        </button>
+      </div>
+
+      <!-- Backup / Restore Tools -->
+      <div class="glass-card rounded-2xl p-3.5 space-y-2 text-xs">
+        <div class="flex items-center justify-between font-bold">
+          <span class="flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400">
+            <i class="ph-bold ph-database"></i> Copia de Seguridad & Conservación
+          </span>
+          <span class="text-[11px] opacity-70">100% Offline</span>
+        </div>
+        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+          Tus empresas se guardan en la memoria interna de la app. Al actualizar el APK, tus datos se conservan automáticamente sin perder nada.
+        </p>
+        <div class="flex flex-wrap gap-2 pt-1">
+          <button id="btn-export-db" class="py-1.5 px-3 rounded-full bg-slate-500/20 hover:bg-slate-500/30 font-semibold flex items-center gap-1">
+            <i class="ph-bold ph-download-simple"></i> Exportar Respaldo (JSON)
+          </button>
+          <label class="cursor-pointer py-1.5 px-3 rounded-full bg-slate-500/20 hover:bg-slate-500/30 font-semibold flex items-center gap-1">
+            <i class="ph-bold ph-upload-simple"></i> Restaurar Copia
+            <input type="file" id="input-import-file" accept=".json" class="hidden">
+          </label>
+          <button id="btn-reset-demo" class="py-1.5 px-3 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i> Restaurar Demos
+          </button>
+        </div>
+      </div>
+
+      <!-- User's Registered Companies List -->
+      <div class="space-y-2">
+        <h3 class="font-bold text-sm tracking-wide uppercase text-slate-500 dark:text-slate-400">
+          Mis Empresas Registradas
+        </h3>
+        <div id="owner-biz-list" class="space-y-2.5"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FORM MODAL (ADD / EDIT BUSINESS WITH STRICT PLAN PERMISSIONS) -->
+  <div id="biz-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 bg-black/60 backdrop-blur-sm">
+    <div class="glass rounded-3xl p-4 sm:p-5 max-w-lg w-full max-h-[92dvh] overflow-y-auto text-slate-800 dark:text-slate-100 space-y-3.5 shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="flex justify-between items-center pb-1 border-b border-slate-300/40 dark:border-slate-700/60">
+        <h2 id="modal-title" class="font-bold text-base sm:text-lg flex items-center gap-2">
+          <i class="ph-fill ph-storefront text-indigo-500"></i>
+          <span>Registrar Mi Empresa</span>
+        </h2>
+        <button id="btn-close-modal" class="fab !w-8 !h-8 text-xl bg-slate-500/20">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <!-- Business Form -->
+      <form id="form-business" class="space-y-3 text-xs sm:text-sm">
+        <input type="hidden" id="biz-id" value="">
+
+        <!-- Plan / Tier Selector (Strict rules) -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs opacity-90">Selecciona el Plan de Visibilidad *</label>
+            <span id="plan-badge-indicator" class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-300 dark:bg-slate-700">Plan Básico</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="cursor-pointer border-2 rounded-2xl p-2.5 text-center transition flex flex-col items-center justify-between" id="tier-label-free">
+              <input type="radio" name="biz-tier" value="free" class="sr-only" checked>
+              <span class="font-bold text-xs">Básico</span>
+              <span class="text-[10px] opacity-70">S/ 0</span>
+              <span class="text-[9px] mt-1 text-slate-500">1 foto · 80 car.</span>
+            </label>
+            <label class="cursor-pointer border-2 rounded-2xl p-2.5 text-center transition flex flex-col items-center justify-between" id="tier-label-gold">
+              <input type="radio" name="biz-tier" value="gold" class="sr-only">
+              <span class="font-bold text-xs text-amber-500">★ Gold</span>
+              <span class="text-[10px] opacity-70">S/ 29/m</span>
+              <span class="text-[9px] mt-1 text-amber-500">3 fotos · WhatsApp</span>
+            </label>
+            <label class="cursor-pointer border-2 rounded-2xl p-2.5 text-center transition flex flex-col items-center justify-between" id="tier-label-platinum">
+              <input type="radio" name="biz-tier" value="platinum" class="sr-only">
+              <span class="font-bold text-xs text-purple-600 dark:text-purple-400">👑 Platinum</span>
+              <span class="text-[10px] opacity-70">S/ 79/m</span>
+              <span class="text-[9px] mt-1 text-purple-500">6 fotos · Eventos</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Name & Country -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div class="space-y-1">
+            <label class="font-bold text-xs opacity-90">Nombre del Negocio *</label>
+            <input type="text" id="biz-name" required placeholder="Ej: Café Wari" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium">
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-xs opacity-90">País *</label>
+            <select id="biz-country" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium cursor-pointer">
+              <option value="PE" selected>🇵🇪 Perú</option>
+              <option value="CO">🇨🇴 Colombia</option>
+              <option value="MX">🇲🇽 México</option>
+              <option value="AR">🇦🇷 Argentina</option>
+              <option value="CL">🇨🇱 Chile</option>
+              <option value="ES">🇪🇸 España</option>
+              <option value="US">🇺🇸 Estados Unidos</option>
+              <option value="OT">🌐 Otro país</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category (Dynamic & Editable) -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs opacity-90">Categoría del Negocio *</label>
+            <button type="button" id="btn-form-new-cat" class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+              <i class="ph-bold ph-plus"></i> Añadir nueva categoría
+            </button>
+          </div>
+          <select id="biz-category" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2.5 outline-none font-medium cursor-pointer">
+            <!-- Dynamic categories populated via JS -->
+          </select>
+        </div>
+
+        <!-- Phone (All plans) & WhatsApp (Gold & Platinum only) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div class="space-y-1">
+            <label class="font-bold text-xs opacity-90">Teléfono para Llamadas *</label>
+            <input type="tel" id="biz-phone" required placeholder="+51 987 654 321" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium">
+          </div>
+
+          <!-- WhatsApp field: Locked on Free, Active on Gold & Platinum -->
+          <div id="field-whatsapp" class="space-y-1">
+            <div class="flex items-center justify-between">
+              <label class="font-bold text-xs opacity-90 flex items-center gap-1">
+                <i class="ph-fill ph-whatsapp-logo text-emerald-500"></i> WhatsApp Clientes
+              </label>
+              <span id="lock-whatsapp" class="text-[10px] text-amber-500 font-bold hidden">🔒 Requiere Gold</span>
+            </div>
+            <input type="text" id="biz-whatsapp" placeholder="51987654321" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium">
+          </div>
+        </div>
+
+        <!-- Address & Resumed Schedule (All plans) -->
+        <div class="space-y-1">
+          <label class="font-bold text-xs opacity-90">Dirección Física *</label>
+          <input type="text" id="biz-address" required placeholder="Ej: Jr. 28 de Julio 215" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium">
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-xs opacity-90">Horario Resumido *</label>
+          <input type="text" id="biz-schedule" required placeholder="Ej: Lun - Sáb: 8:00 am - 9:30 pm" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium">
+        </div>
+
+        <!-- Coordinates (Mi GPS / Tocar mapa - All plans) -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs opacity-90">Coordenadas en el Mapa *</label>
+            <div class="flex gap-1">
+              <button type="button" id="btn-pick-gps" class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                <i class="ph-bold ph-crosshair"></i> Mi GPS
+              </button>
+              <span class="opacity-30">|</span>
+              <button type="button" id="btn-pick-map" class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                <i class="ph-bold ph-map-pin"></i> Tocar Mapa
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="number" step="any" id="biz-lat" required placeholder="Latitud (-12.046)" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none font-mono text-xs">
+            <input type="number" step="any" id="biz-lng" required placeholder="Longitud (-77.030)" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none font-mono text-xs">
+          </div>
+          <p id="map-pick-hint" class="text-[11px] text-indigo-600 dark:text-indigo-400 hidden">
+            ✨ Toca cualquier punto del mapa para fijar la ubicación del local.
+          </p>
+        </div>
+
+        <!-- Description with Dynamic Character Limit (80 en Básico, 180 en Gold, 360 en Platinum) -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs opacity-90">Descripción del Negocio</label>
+            <span id="desc-char-count" class="text-[11px] font-mono font-bold text-indigo-600 dark:text-indigo-400">0 / 80</span>
+          </div>
+          <textarea id="biz-desc" rows="2" maxlength="80" placeholder="Escribe los servicios o productos más destacados…" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 outline-none font-medium resize-none"></textarea>
+        </div>
+
+        <!-- Photos Upload with Plan Limit (1 en Básico, 3 en Gold, 6 en Platinum) -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs opacity-90">
+              Fotos del Negocio <span id="photo-limit-label" class="text-[11px] font-normal opacity-70">(Máx. 1 foto)</span>
+            </label>
+            <label id="btn-upload-photo-label" class="cursor-pointer text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+              <i class="ph-bold ph-camera"></i> Subir Foto
+              <input type="file" id="biz-photo-input" accept="image/*" class="hidden">
+            </label>
+          </div>
+          <div id="biz-photos-preview" class="flex gap-2 overflow-x-auto noscroll py-1"></div>
+        </div>
+
+        <!-- Checkboxes: Abierto ahora & Sello Verificado (Gold & Platinum only) -->
+        <div id="field-checkboxes-gold" class="grid grid-cols-2 gap-2 pt-1">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="biz-isopen" checked class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+            <label for="biz-isopen" class="font-semibold text-xs cursor-pointer">Abierto ahora</label>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="biz-verified" checked class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+            <label for="biz-verified" class="font-semibold text-xs cursor-pointer">✔ Sello Verificado</label>
+          </div>
+        </div>
+
+        <!-- Promotional Coupon (Platinum Only) -->
+        <div id="field-promo" class="space-y-1.5 p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+              <i class="ph-bold ph-ticket"></i> Cupón de Descuento para Clientes
+            </label>
+            <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-purple-600 text-white">Exclusivo Platinum</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="biz-promo-code" placeholder="Código (ej. PROMO15)" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none font-mono uppercase text-xs">
+            <input type="number" id="biz-promo-off" placeholder="% Descuento (ej. 15)" min="1" max="100" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none text-xs">
+          </div>
+          <input type="text" id="biz-promo-label" placeholder="Descripción breve (ej. 15% OFF en toda la carta)" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none text-xs">
+        </div>
+
+        <!-- Important Events Option (Platinum Only) -->
+        <div id="field-event" class="space-y-2 p-3 rounded-2xl bg-purple-500/10 border border-purple-500/20">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-xs text-purple-700 dark:text-purple-300 flex items-center gap-1">
+              <i class="ph-bold ph-calendar-star"></i> Eventos Importantes del Negocio
+            </label>
+            <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-purple-600 text-white">Exclusivo Platinum</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input type="text" id="biz-event-title" placeholder="Título del evento (ej. Noche de Jazz)" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none text-xs">
+            <input type="date" id="biz-event-date" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none text-xs">
+          </div>
+          <textarea id="biz-event-desc" rows="2" placeholder="Detalles del evento, artistas, promociones de la noche…" class="w-full rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-1.5 outline-none text-xs resize-none"></textarea>
+          
+          <div class="flex items-center justify-between pt-1">
+            <label class="cursor-pointer text-[11px] font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1">
+              <i class="ph-bold ph-image"></i> Foto del Evento
+              <input type="file" id="biz-event-photo-input" accept="image/*" class="hidden">
+            </label>
+            <span id="biz-event-photo-status" class="text-[10px] opacity-70">Sin foto</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2 flex gap-2">
+          <button type="submit" class="flex-1 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 active:scale-98 transition flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-floppy-disk text-base"></i>
+            <span>Guardar en Base de Datos</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT CATEGORY -->
+  <div id="cat-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div class="glass rounded-3xl p-5 max-w-sm w-full space-y-3.5 shadow-2xl">
+      <div class="flex justify-between items-center pb-1 border-b border-slate-300/40 dark:border-slate-700/60">
+        <h3 class="font-bold text-base flex items-center gap-1.5">
+          <i class="ph-bold ph-squares-four text-indigo-500"></i>
+          <span>Gestionar Categorías</span>
+        </h3>
+        <button id="btn-close-cat-modal" class="fab !w-7 !h-7 text-lg bg-slate-500/20">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <label class="font-bold text-xs opacity-90">Nueva Categoría</label>
+        <div class="flex gap-2">
+          <input type="text" id="new-cat-icon" placeholder="Emoji (ej. 💈)" maxlength="3" class="w-14 rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-2 py-2 text-center text-sm outline-none">
+          <input type="text" id="new-cat-name" placeholder="Nombre (ej. Barbería)" class="flex-1 rounded-xl bg-slate-500/15 dark:bg-slate-800/80 px-3 py-2 text-xs outline-none font-medium">
+        </div>
+        <button id="btn-save-new-cat" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 active:scale-98 transition">
+          + Agregar Categoría
+        </button>
+      </div>
+
+      <div class="space-y-1 pt-2 border-t border-slate-300/40 dark:border-slate-700/60">
+        <label class="font-bold text-xs opacity-90">Categorías Disponibles</label>
+        <div id="cat-list-manage" class="max-h-48 overflow-y-auto space-y-1 pr-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav glass border-t border-slate-300/40 dark:border-slate-800/70">
+    <button id="nav-tab-explore" class="flex flex-col items-center justify-center text-indigo-600 dark:text-indigo-400 flex-1 py-1 transition">
+      <i class="ph-fill ph-map-trifold text-2xl"></i>
+      <span class="text-[10px] font-bold mt-0.5">Explorar</span>
+    </button>
+    <button id="nav-tab-list" class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 flex-1 py-1 transition">
+      <i class="ph ph-squares-four text-2xl"></i>
+      <span class="text-[10px] font-medium mt-0.5">Directorio</span>
+    </button>
+    <button id="nav-tab-owner" class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 flex-1 py-1 transition">
+      <i class="ph ph-buildings text-2xl"></i>
+      <span class="text-[10px] font-medium mt-0.5">Mi Empresa</span>
+    </button>
+  </nav>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="glass rounded-full px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-xl border border-slate-300/40 dark:border-slate-700/60 flex items-center gap-2"></div>
+
+  <!-- MAIN JAVASCRIPT ENTRY -->
+  <script src="./assets/ux-upgrade.js" defer></script>
 </body>
 </html>
